@@ -21,7 +21,9 @@ class Y8_API_CLIENT:
 
     def start_listening(self):
         self.stop = False
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '.json'
+        BTCUSD = 'BTCUSD'
+        ETHUSD = 'ETHUSD'
+        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + BTCUSD + '.json'
            
         # wait until the next 5-minute tick
         tz_Berlin = pytz.timezone('Europe/Berlin')
