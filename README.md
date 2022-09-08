@@ -2,15 +2,25 @@
 
 This client allows you to retrieve the forecasts created by YUCE-8 (aka Y8). Please read the terms & conditions before using this code and the related YUCE-8 service.
 
+----------------------------------------------------------------------------------------------------------------
+
+# Usage
+
+```
+import concurrent
+from . import 
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+  Y = Y8_API_CLIENT('johndoe', SAMPLE_EVENT_LISTENER(), executor)
+  Y.start_listening()
+```
 
 
+----------------------------------------------------------------------------------------------------------------
 
+# TERMS & CONDITIONS
 
-
-
-
-** FOR ALL TRADERS, WE BOLDLY IMPLORE THE FOLLOWING: **
-
+FOR ALL TRADERS, WE BOLDLY IMPLORE THE FOLLOWING:
 
 ## Always do your own Research
 OUR CONTENT IS INTENDED TO BE USED FOR EDUCATIONAL PURPOSES ONLY.  WE ENCOURAGE ALL TRADERS TO DO THEIR OWN ANALYSIS BEFORE MAKING ANY INVESTMENT CHOICES.
