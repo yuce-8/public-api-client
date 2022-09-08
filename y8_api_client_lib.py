@@ -11,6 +11,10 @@ import concurrent.futures
 
 class Y8_API_CLIENT:
 
+    BTCUSD = 'BTCUSD'
+    ETHUSD = 'ETHUSD'
+        
+    
     def __init__(self, CLIENT_ID, EVENT_LISTENER, PARALLEL_EXECUTOR) -> None:
         self.CLIENT_ID = CLIENT_ID
         self.EVENT_LISTENER = EVENT_LISTENER
@@ -19,11 +23,9 @@ class Y8_API_CLIENT:
         pass
 
 
-    def start_listening(self):
+    def start_listening(self, symbol='BTCUSD'):
         self.stop = False
-        BTCUSD = 'BTCUSD'
-        ETHUSD = 'ETHUSD'
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + BTCUSD + '.json'
+        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '.json'
            
         # wait until the next 5-minute tick
         tz_Berlin = pytz.timezone('Europe/Berlin')
