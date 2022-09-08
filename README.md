@@ -15,7 +15,7 @@ from . import y8_api_client_lib as y8client
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
   Y = y8client.Y8_API_CLIENT('johndoe', y8client.SAMPLE_EVENT_LISTENER(), executor)
-  Y.start_listening()
+  Y.start_listening(symbol=y8client.Y8_API_CLIENT.ETHUSD)
 ```
 
 use 'johndoe' to access the public alpha release. You may modify SAMPLE_EVENT_LISTENER for your own purposes
