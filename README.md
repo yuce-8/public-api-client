@@ -6,9 +6,9 @@ This client allows you to retrieve the forecasts created by YUCE-8 (aka Y8). Ple
 
 # Usage
 
-```
+```python
 import concurrent
-from . import 
+from . import y8_api_client_lib as y8client
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
   Y = Y8_API_CLIENT('johndoe', SAMPLE_EVENT_LISTENER(), executor)
