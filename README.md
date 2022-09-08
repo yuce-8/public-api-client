@@ -6,14 +6,31 @@ This client allows you to retrieve the forecasts created by YUCE-8 (aka Y8). Ple
 
 # Usage
 
+## 1st: connect to the Y8 events...
 ```python
 import concurrent
 from . import y8_api_client_lib as y8client
 
+
+
 with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-  Y = Y8_API_CLIENT('johndoe', SAMPLE_EVENT_LISTENER(), executor)
+  Y = y8client.Y8_API_CLIENT('johndoe', y8client.SAMPLE_EVENT_LISTENER(), executor)
   Y.start_listening()
 ```
+
+use 'johndoe' to access the public alpha release. You may modify SAMPLE_EVENT_LISTENER for your own purposes
+
+## 2nd: wait for the events to be pulled:
+Once the client runs it pulls new events every 5:20 minutes (ie. 12:20:20, 12:25:20 ...). The events aren't published earlier. 
+
+```
+waiting for next 5:20 minute tick...  2022-06-09 11:20:21.846310+02:00
+https://storage.googleapis.com/y8-poc/trades/test.json
+{'ID': 100, 'DIRECTION': 'CLOSED', 'PRICE_OF_INVESTMENT': 31000, 'TIMESTAMP': '2022-05-02 20:20:12'}
+the BTC position got closed at  31000 $ /  2022-05-02 20:20:12
+waiting for next 5:20 minute tick...  2022-06-09 11:25:21.309987+02:00
+```
+
 
 
 ----------------------------------------------------------------------------------------------------------------
