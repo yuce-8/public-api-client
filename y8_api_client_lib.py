@@ -6,7 +6,6 @@ import pytz
 import json
 import requests
 import time
-import concurrent.futures
 
 
 class Y8_API_CLIENT:
@@ -17,12 +16,8 @@ class Y8_API_CLIENT:
     INTERVAL_4HOURS = '4hour'
         
     
-    def __init__(self, CLIENT_ID, EVENT_LISTENER, PARALLEL_EXECUTOR) -> None:
+    def __init__(self, CLIENT_ID) -> None:
         self.CLIENT_ID = CLIENT_ID
-        self.EVENT_LISTENER = EVENT_LISTENER
-        self.stop = False
-        self.PARALLEL_EXECUTOR = PARALLEL_EXECUTOR
-        pass
 
 
     def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
