@@ -32,7 +32,12 @@ class Y8_API_CLIENT:
         return signal
     
     def get_historical_quotes(self, symbol='BTCUSD', interval='30min'):
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-quotes-' + symbol + '-' + interval + '.json'
+        x_symbol = None
+        if symbol == Y8_API_CLIENT.BTCUSD:
+            x_symbol = 'BTC-USD'
+        elif symbol == Y8_API_CLIENT.ETHUSD:
+            x_symbol = 'ETH-USD'
+        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-quotes-' + x_symbol + '-' + interval + '-quotes.json'
         df = pd.read_json(requests.get(URL).text, orient='split')
         df.Date_ = pd.to_datetime(df.Date_)
         return df
