@@ -20,13 +20,13 @@ class Y8_API_CLIENT:
         self.CLIENT_ID = CLIENT_ID
 
 
-    def get_latest_forecast(self, symbol=Y8_API_CLIENT.BTCUSD, interval=Y8_API_CLIENT.INTERVAL_30MIN):
+    def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
         URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '-' + interval + '.json'
         f_0 = json.loads(requests.get(URL).text)
         return f_0
     
     
-    def get_latest_signal(self, symbol=Y8_API_CLIENT.BTCUSD):
+    def get_latest_signal(self, symbol='BTCUSD'):
         URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '.json'
         signal = json.loads(requests.get(URL).text)
         return signal
