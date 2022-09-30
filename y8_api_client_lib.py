@@ -42,5 +42,10 @@ class Y8_API_CLIENT:
         df.Date_ = pd.to_datetime(df.Date_)
         return df
     
+    def get_historical_forecasts(self, symbol='BTCUSD', interval='30min'):
+        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-history-' + symbol + '-' + interval + '.json'
+        f_0_history = json.loads(requests.get(URL).text)
+        return f_0_history
+    
     
     
