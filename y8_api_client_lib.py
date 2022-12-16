@@ -26,10 +26,10 @@ class Y8_API_CLIENT:
         if self.debug_output:
             print(args, kwargs)
 
-
     def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
         URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '-' + interval + '.json'
         f_0 = json.loads(requests.get(URL).text)
+        run_bug_fixes_for_this_release(f_0)
         return f_0
     
     
@@ -55,5 +55,18 @@ class Y8_API_CLIENT:
             return []
         
     
+ 
+#------------
+
+def run_bug_fixes_for_this_release(f_0):
+    def convert_to_float(attribute, is_array=False):
+        nonlocal f_0
+        if not is_array and attribute in f_0:
+            f_0[attribute] = float(f_0[attribute])
+    
+    # convert some elements to float...
+    convert_to_float('last_quote']
+    convert_to_float('next_resistance')
+    convert_to_float('next_support')
     
     
