@@ -8,16 +8,23 @@ import requests
 import time
 import pandas as pd
 
+
 class Y8_API_CLIENT:
 
-    BTCUSD = 'BTCUSD'
-    ETHUSD = 'ETHUSD'
+    BTCUSD = 'BTC-USD'
+    ETHUSD = 'ETH-USD'
     INTERVAL_30MIN = '30min'
     INTERVAL_4HOURS = '4hour'
-        
+    INTERVAL_1D = '1d'
+     
     
-    def __init__(self, CLIENT_ID) -> None:
+    def __init__(self, CLIENT_ID, debug_output=False) -> None:
         self.CLIENT_ID = CLIENT_ID
+        self.debug_output = debug_output
+        
+    def debug_out(*args, **kwargs):
+        if self.debug_output:
+            print(args, kwargs)
 
 
     def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
@@ -32,12 +39,9 @@ class Y8_API_CLIENT:
         return signal
     
     def get_historical_quotes(self, symbol='BTCUSD', interval='30min'):
-        x_symbol = None
-        if symbol == Y8_API_CLIENT.BTCUSD:
-            x_symbol = 'BTC-USD'
-        elif symbol == Y8_API_CLIENT.ETHUSD:
-            x_symbol = 'ETH-USD'
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-quotes-' + x_symbol + '-' + interval + '-quotes.json'
+        SIG = f'get_historical_quotes({symbol}/{interval}) | '
+        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-quotes-' + symbol + '-' + interval + '-quotes.json'
+        self.debug_out(SIG, f'requesting URL = {URL}') 
         df = pd.read_json(requests.get(URL).text, orient='split')
         df.Date_ = pd.to_datetime(df.Date_)
         return df
