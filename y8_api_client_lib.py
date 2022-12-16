@@ -22,12 +22,14 @@ class Y8_API_CLIENT:
         self.CLIENT_ID = CLIENT_ID
         self.debug_output = debug_output
         
-    def debug_out(*args, **kwargs):
+    def debug_out(self, *args, **kwargs):
         if self.debug_output:
             print(args, kwargs)
 
     def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
         URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '-' + interval + '.json'
+        SIG = f'get_latest_forecast({symbol}/{interval}) | '
+        printd(SIG, f'requesting @ {URL}')
         f_0 = json.loads(requests.get(URL).text)
         run_bug_fixes_for_this_release(f_0)
         return f_0
