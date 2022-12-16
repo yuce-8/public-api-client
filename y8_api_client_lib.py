@@ -65,7 +65,7 @@ def run_bug_fixes_for_this_release(f_0):
             f_0[attribute] = float(f_0[attribute])
     
     # convert some elements to float...
-    convert_to_float('last_quote']
+    convert_to_float('last_quote')
     convert_to_float('next_resistance')
     convert_to_float('next_support')
     
