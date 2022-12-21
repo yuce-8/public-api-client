@@ -31,7 +31,7 @@ class Y8_API_CLIENT:
         SIG = f'get_latest_forecast({symbol}/{interval}) | '
         self.debug_out(SIG, f'requesting @ {URL}')
         f_0 = json.loads(requests.get(URL).text)
-        run_bug_fixes_for_this_release(f_0)
+        f_0 = run_bug_fixes_for_this_release(f_0)
         return f_0
     
     
@@ -54,6 +54,14 @@ class Y8_API_CLIENT:
             URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-all-history-' + symbol + '-' + interval + '.json'
             self.debug_out(SIG, f'requesting URL = {URL}') 
             f_0_history = json.loads(requests.get(URL).text)
+            # bug fixes
+            _ = []
+            for f_0 in f_0_history:
+                new_f_0 = run_bug_fixes_for_this_release(f_0)
+                _.append(new_f_0)
+            f_0_history = _
+            #------- end of bug fixes
+            
             return f_0_history
         except:
             return []
@@ -72,5 +80,6 @@ def run_bug_fixes_for_this_release(f_0):
     convert_to_float('last_quote')
     convert_to_float('next_resistance')
     convert_to_float('next_support')
+    return f_0
     
     
