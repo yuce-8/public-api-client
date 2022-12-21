@@ -51,7 +51,7 @@ class Y8_API_CLIENT:
     def get_historical_forecasts(self, symbol='BTCUSD', interval='30min'):
         try:
             SIG = f'get_historical_forecasts({symbol}/{interval}) | '
-            URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-history-' + symbol + '-' + interval + '.json'
+            URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-all-history-' + symbol + '-' + interval + '.json'
             self.debug_out(SIG, f'requesting URL = {URL}') 
             f_0_history = json.loads(requests.get(URL).text)
             return f_0_history
