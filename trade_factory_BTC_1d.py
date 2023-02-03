@@ -26,9 +26,7 @@ if 'google.colab' in sys.modules:
 else:
     IS_COLAB_RUNTIME = False
     print('P A P E R   T R A D E   B T C   G C P   M O D E')
-    from .commons import printd
-    from . import commons as c
-    c.IS_LOCAL = False
+    
 
 printd('READY FOR PAPERTRADES...')
 
