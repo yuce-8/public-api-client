@@ -803,4 +803,19 @@ def plot_forecast(df, forecast):
     plt.xticks(all_indizes, date_array, rotation=30, ha='right')
     plt.show()
 
-        
+# ---------------------------------------------
+
+
+def get_test_data(interval):
+  import pandas as pd
+  url=f"https://storage.googleapis.com/y8-poc/test_data/test_dataset_BTCUSD_{interval}.csv"
+  df = pd.read_csv(url)
+  df.Date_ = pd.to_datetime(df.Date_)
+  return df
+
+#----------------------------------------------
+
+def get_test_forecasts():
+  import requests
+  return requests.get('https://storage.googleapis.com/y8-poc/test_data/test_dataset_4hours_forecasts.json').json()
+  return r.json()
