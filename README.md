@@ -1,4 +1,4 @@
-# The YUCE-8 public-api-client
+# The Y8-tech public-api-client
 
 This client allows you to retrieve the forecasts created by YUCE-8 (aka Y8). Please read the terms & conditions before using this code and the related YUCE-8 service.
 
