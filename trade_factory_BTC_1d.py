@@ -180,9 +180,11 @@ def describe_future_resistance_and_support(f_0):
     except:
         return '?'
 
-
 def describe_future_behavior(f_0):
     forecast = f_0['forecast']
+    forecasted_prices_top = f_0['quotes_forecast_top_incl_vola']
+    forecasted_prices_bottom = f_0['quotes_forecast_bottom_incl_vola']
+    last_quote = f_0['last_quote']
     len_forecast = len(forecast)
     _2nd_half_of_forecast = forecast[4:]
     _1st_half_of_forecast = forecast[:4]
@@ -208,7 +210,7 @@ def describe_future_behavior(f_0):
             return FUTURE_IS_NEGATIVE_WITH_A_SPIKE_OF_HOPE_IN_THE_MIDDLE
         else:
             number_of_negatives = np.sum([1 if f < 0 else 0 for f in forecast])
-            if number_of_negatives == len_forecast and avg_1st_half_of_forecast > avg_2nd_half_of_forecast and avg_2nd_half_of_forecast > -5:
+            if number_of_negatives == len_forecast and avg_1st_half_of_forecast > avg_2nd_half_of_forecast and avg_2nd_half_of_forecast > -5 and max(forecasted_prices_top[-4:] + forecasted_prices_bottom[-4:]) < last_quote:
                 return FUTURE_IS_VERY_NEGATIVE
             else:
                 if number_of_negatives == len_forecast and avg_1st_half_of_forecast < avg_2nd_half_of_forecast:
@@ -244,6 +246,8 @@ def describe_future_behavior(f_0):
                                         
     
     return FUTURE_IS_UNDEFINED    
+
+
 
 
 #-----------------------------------------------------------------------------------------------------------
