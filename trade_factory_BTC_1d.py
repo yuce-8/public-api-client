@@ -811,6 +811,7 @@ def plot_forecast(df, forecast):
 
 
 def get_ressource(email, resource):
+  import requests
   resp = requests.post('https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix_large', json={
     'action': 'access_resource',
     'email': email,
