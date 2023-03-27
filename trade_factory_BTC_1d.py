@@ -810,16 +810,43 @@ def plot_forecast(df, forecast):
 # ---------------------------------------------
 
 
-def get_test_data(interval):
-  import pandas as pd
-  url=f"https://storage.googleapis.com/y8-poc/test_data/test_dataset_BTCUSD_{interval}.csv"
-  df = pd.read_csv(url)
-  df.Date_ = pd.to_datetime(df.Date_)
-  return df
+def get_ressource(email, resource):
+  resp = requests.post('https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix_large', json={
+    'action': 'access_resource',
+    'email': email,
+    'requested_ressource': resource
+  })
 
-#----------------------------------------------
+  if resp.status_code == 200:
+    x = resp.json()
+    if x['status'] == 'failed':
+      print('failure: ', x['data'])
+      return False, x['data']
+    elif x['status'] == 'success':
+      print(len(str(x['data'])), ' bytes received')
+      return True, x['data']
+  else:
+    print('general failure: ', resp.text)
+    return False, resp.text
+  
+def get_test_data(email, interval):
+    resource = f'test_dataset_BTCUSD_{interval}.csv'
+    success, data = get_ressource(email, resource)
+    if success:
+      import pandas as pd
+      from io import StringIO
+      csvStringIO = StringIO(x['data'])
+      df = pd.read_csv(csvStringIO)
+      df.Date_ = pd.to_datetime(df.Date_)
+      return df
+    else:
+      return None
 
-def get_test_forecasts():
-  import requests
-  return requests.get('https://storage.googleapis.com/y8-poc/test_data/test_dataset_4hours_forecasts.json').json()
-  return r.json()
+def get_test_forecasts(email):
+  resource = 'test_dataset_4hours_forecasts.json'
+  success, data = get_ressource(email, resource)
+  if success:
+    import json
+    return json.loads(data)
+  else:
+    return None
