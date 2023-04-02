@@ -836,7 +836,7 @@ def get_test_data(email, interval):
     if success:
       import pandas as pd
       from io import StringIO
-      csvStringIO = StringIO(x['data'])
+      csvStringIO = StringIO(data)
       df = pd.read_csv(csvStringIO)
       df.Date_ = pd.to_datetime(df.Date_)
       return df
