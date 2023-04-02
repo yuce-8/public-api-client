@@ -844,7 +844,7 @@ def get_test_data(email, interval):
       return None
 
 def get_test_forecasts(email):
-  resource = 'test_dataset_4hours_forecasts.json'
+  resource = 'test_dataset_BTCUSD-4hours_forecasts.json'
   success, data = get_ressource(email, resource)
   if success:
     import json
