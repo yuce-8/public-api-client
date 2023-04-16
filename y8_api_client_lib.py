@@ -50,16 +50,15 @@ class Y8_API_CLIENT:
         return self.get_historical_quotes_v2(symbol, interval, 1)
 
     def get_historical_quotes_v2(self, symbol, interval, history):
-        resource = f'public-interval-quotes-{symbol}-{interval}--{history}.csv'
+        resource = f'public-interval-quotes-{symbol}-{interval}--{history}.json'
         SIG = f'get_historical_quotes_v2({symbol}/{interval}/{history}) | '
         
         self.debug_out(SIG, f'requesting @ {resource}')
         success, data = get_ressource(self.CLIENT_ID, resource)
         self.debug_out(SIG, f'request successful? {success}')
         if success:
-            csvStringIO = StringIO(data)
-            df = pd.read_csv(csvStringIO)
-            df.Date_ = pd.to_datetime(df.Date_)
+            df = pd.DataFrame.from_records(data['rows'])
+            df.Date_ = pd.to_datetime(df.Date_orig)
             return df
         else:
             return None
