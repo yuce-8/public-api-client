@@ -7,6 +7,7 @@ import json
 import requests
 import time
 import pandas as pd
+from io import StringIO
 
 
 class Y8_API_CLIENT:
@@ -33,6 +34,21 @@ class Y8_API_CLIENT:
         f_0 = json.loads(requests.get(URL).text)
         f_0 = run_bug_fixes_for_this_release(f_0)
         return f_0
+    
+    
+    def get_latest_forecast_v2(self, symbol='BTCUSD', interval='30min'):
+        F_NAME = f'public-{symbo}-{interval}.json'
+        SIG = f'get_latest_forecast({symbol}/{interval}) | '
+        self.debug_out(SIG, f'requesting @ {F_NAME}')
+        
+        success, data = get_ressource(self.CLIENT_ID, F_NAME)
+        self.debug_out(SIG, f'request successful? {success}')
+        if success:
+            f_0 = json.loads(data)
+            f_0 = run_bug_fixes_for_this_release(f_0)
+            return f_0
+        else:
+            return None
     
     
     def get_latest_signal(self, symbol='BTCUSD'):
@@ -65,9 +81,49 @@ class Y8_API_CLIENT:
             return f_0_history
         except:
             return []
-        
-    
- 
+
+#------------
+
+def get_ressource(email, resource):
+  resp = requests.post('https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix_large', json={
+    'action': 'access_resource',
+    'email': email,
+    'requested_ressource': resource
+  })
+
+  if resp.status_code == 200:
+    x = resp.json()
+    if x['status'] == 'failed':
+      print('failure: ', x['data'])
+      return False, x['data']
+    elif x['status'] == 'success':
+      print(len(str(x['data'])), ' bytes received')
+      return True, x['data']
+  else:
+    print('general failure: ', resp.text)
+    return False, resp.text
+
+
+def get_btc_test_data(email, interval):
+    resource = f'test_dataset_BTCUSD_{interval}.csv'
+    success, data = get_ressource(email, resource)
+    if success:
+      csvStringIO = StringIO(data)
+      df = pd.read_csv(csvStringIO)
+      df.Date_ = pd.to_datetime(df.Date_)
+      return df
+    else:
+      return None
+
+def get_btc_test_forecasts(email):
+  resource = 'test_dataset_BTCUSD-4hours_forecasts.json'
+  success, data = get_ressource(email, resource)
+  if success:
+    return json.loads(data)
+  else:
+    return None
+
+
 #------------
 
 def run_bug_fixes_for_this_release(f_0):
