@@ -36,9 +36,34 @@ class Y8_API_CLIENT:
         return f_0
     
     
-    def get_latest_forecast_v2(self, symbol='BTC-USD', interval='1d'):
-        F_NAME = f'public-f_0-{symbol}-{interval}--1.json'
-        SIG = f'get_latest_forecast({symbol}/{interval}) | '
+    def get_latest_signal(self, symbol='BTCUSD'):
+        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '.json'
+        signal = json.loads(requests.get(URL).text)
+        return signal
+
+    
+    def get_latest_forecast_v2(self, symbol, interval):
+        return self.get_historical_forecast_v2(symbol, interval, 1)
+    
+
+    
+    def get_historical_quotes_v2(self, symbol, interval, history):
+        resource = f'public-interval-quotes-{symbol}-{interval}--{history}.csv'
+        self.debug_out(SIG, f'requesting @ {resource}')
+        success, data = get_ressource(self.CLIENT_ID, resource)
+        self.debug_out(SIG, f'request successful? {success}')
+        if success:
+            csvStringIO = StringIO(data)
+            df = pd.read_csv(csvStringIO)
+            df.Date_ = pd.to_datetime(df.Date_)
+            return df
+        else:
+            return None
+
+        
+    def get_historical_forecast_v2(self, symbol, interval, history):
+        F_NAME = f'public-f_0-{symbol}-{interval}--{history}.json'
+        SIG = f'get_historical_forecast({symbol}/{interval}) | '
         self.debug_out(SIG, f'requesting @ {F_NAME}')
         
         success, data = get_ressource(self.CLIENT_ID, F_NAME)
@@ -49,12 +74,7 @@ class Y8_API_CLIENT:
             return f_0
         else:
             return None
-    
-    
-    def get_latest_signal(self, symbol='BTCUSD'):
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '.json'
-        signal = json.loads(requests.get(URL).text)
-        return signal
+
     
     def get_historical_quotes(self, symbol='BTCUSD', interval='30min'):
         SIG = f'get_historical_quotes({symbol}/{interval}) | '
