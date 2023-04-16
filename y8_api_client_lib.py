@@ -44,11 +44,15 @@ class Y8_API_CLIENT:
     
     def get_latest_forecast_v2(self, symbol, interval):
         return self.get_historical_forecast_v2(symbol, interval, 1)
-    
 
     
+    def get_latest_quotes_v2(self, symbol, interval):
+        return self.get_historical_quotes_v2(symbol, interval, 1)
+
     def get_historical_quotes_v2(self, symbol, interval, history):
         resource = f'public-interval-quotes-{symbol}-{interval}--{history}.csv'
+        SIG = f'get_historical_quotes_v2({symbol}/{interval}/{history}) | '
+        
         self.debug_out(SIG, f'requesting @ {resource}')
         success, data = get_ressource(self.CLIENT_ID, resource)
         self.debug_out(SIG, f'request successful? {success}')
@@ -63,7 +67,7 @@ class Y8_API_CLIENT:
         
     def get_historical_forecast_v2(self, symbol, interval, history):
         F_NAME = f'public-f_0-{symbol}-{interval}--{history}.json'
-        SIG = f'get_historical_forecast({symbol}/{interval}) | '
+        SIG = f'get_historical_forecast({symbol}/{interval}/{history}) | '
         self.debug_out(SIG, f'requesting @ {F_NAME}')
         
         success, data = get_ressource(self.CLIENT_ID, F_NAME)
