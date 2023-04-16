@@ -57,7 +57,8 @@ class Y8_API_CLIENT:
         success, data = get_ressource(self.CLIENT_ID, resource)
         self.debug_out(SIG, f'request successful? {success}')
         if success:
-            df = pd.DataFrame.from_records(data['rows'])
+            j = json.loads(data)
+            df = pd.DataFrame.from_records(j['rows'])
             df.Date_ = pd.to_datetime(df.Date_orig)
             return df
         else:
