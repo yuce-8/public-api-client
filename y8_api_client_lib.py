@@ -36,8 +36,8 @@ class Y8_API_CLIENT:
         return f_0
     
     
-    def get_latest_forecast_v2(self, symbol='BTCUSD', interval='30min'):
-        F_NAME = f'public-{symbol}-{interval}.json'
+    def get_latest_forecast_v2(self, symbol='BTC-USD', interval='1d'):
+        F_NAME = f'public-f_0-{symbol}-{interval}--1.json'
         SIG = f'get_latest_forecast({symbol}/{interval}) | '
         self.debug_out(SIG, f'requesting @ {F_NAME}')
         
