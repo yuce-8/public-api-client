@@ -60,6 +60,7 @@ class Y8_API_CLIENT:
             j = json.loads(data)
             df = pd.DataFrame.from_records(j['rows'])
             df.Date_ = pd.to_datetime(df.Date_orig)
+            df.Date_ = pd.to_datetime(df.Date_)
             return df
         else:
             return None
