@@ -28,19 +28,10 @@ class Y8_API_CLIENT:
             print(args, kwargs)
 
     def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '-' + interval + '.json'
         SIG = f'get_latest_forecast({symbol}/{interval}) | '
-        self.debug_out(SIG, f'requesting @ {URL}')
-        f_0 = json.loads(requests.get(URL).text)
-        f_0 = run_bug_fixes_for_this_release(f_0)
-        return f_0
+        self.debug_out(SIG, f' ** THIS FUNCTION IS DEPRECATED ** ')
+        return None
     
-    
-    def get_latest_signal(self, symbol='BTCUSD'):
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-' + symbol + '.json'
-        signal = json.loads(requests.get(URL).text)
-        return signal
-
     
     def get_latest_forecast_v2(self, symbol, interval):
         return self.get_historical_forecast_v2(symbol, interval, 1)
@@ -83,29 +74,13 @@ class Y8_API_CLIENT:
     
     def get_historical_quotes(self, symbol='BTCUSD', interval='30min'):
         SIG = f'get_historical_quotes({symbol}/{interval}) | '
-        URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-quotes-' + symbol + '-' + interval + '-quotes.json'
-        self.debug_out(SIG, f'requesting URL = {URL}') 
-        df = pd.read_json(requests.get(URL).text, orient='split')
-        df.Date_ = pd.to_datetime(df.Date_)
-        return df
+        self.debug_out(SIG, f' ** THIS FUNCTION IS DEPRECATED ** ')
+        return None
     
     def get_historical_forecasts(self, symbol='BTCUSD', interval='30min'):
-        try:
-            SIG = f'get_historical_forecasts({symbol}/{interval}) | '
-            URL = 'https://storage.googleapis.com/y8-poc/trades/' + ('test' if self.CLIENT_ID is None else self.CLIENT_ID) + '-all-history-' + symbol + '-' + interval + '.json'
-            self.debug_out(SIG, f'requesting URL = {URL}') 
-            f_0_history = json.loads(requests.get(URL).text)
-            # bug fixes
-            _ = []
-            for f_0 in f_0_history:
-                new_f_0 = run_bug_fixes_for_this_release(f_0)
-                _.append(new_f_0)
-            f_0_history = _
-            #------- end of bug fixes
-            
-            return f_0_history
-        except:
-            return []
+        SIG = f'get_historical_forecasts({symbol}/{interval}) | '
+        self.debug_out(SIG, f' ** THIS FUNCTION IS DEPRECATED ** ')
+        return None
 
 #------------
 
