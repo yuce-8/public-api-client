@@ -197,7 +197,7 @@ def plot_forecast(df, forecast):
     level_2 = forecast['level_2']
     model_name = forecast['model_name']
     training_date = forecast['training_date']
-    last_date_of_forecast = forecast['last_date']
+    last_date_of_forecast = forecast['CET_last_date']
     last_quote_of_forecast = forecast['last_quote']
     forecasted_values = forecast['forecast']
     sl_before, sl_after = forecast['next_support'], forecast['next_resistance'] 
