@@ -831,7 +831,7 @@ def get_ressource(email, resource):
     return False, resp.text
   
 def get_test_data(email, interval):
-    resource = f'test_dataset_BTCUSD_{interval}.csv'
+    resource = f'test_dataset_BTC-USD_{interval}.csv'
     success, data = get_ressource(email, resource)
     if success:
       import pandas as pd
@@ -844,7 +844,7 @@ def get_test_data(email, interval):
       return None
 
 def get_test_forecasts(email):
-  resource = 'test_dataset_BTCUSD-4hours_forecasts.json'
+  resource = 'test_dataset_BTC-USD-4hours_forecasts.json'
   success, data = get_ressource(email, resource)
   if success:
     import json
