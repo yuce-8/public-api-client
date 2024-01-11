@@ -98,7 +98,7 @@ def get_ressource(email, token, resource, print_xml=False, debug_out=None, use_l
     'action': 'access_resource',
     'email': email,
     'token': token,
-    'requested_ressource': resource
+    'ressource_id': resource
   }
   target_url = f'https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix{"_large" if use_large else ""}'
   if print_xml:
