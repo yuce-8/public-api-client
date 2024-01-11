@@ -26,8 +26,9 @@ class Y8_API_CLIENT:
         
     def debug_out(self, *args, **kwargs):
         if self.debug_output:
-            print(args, kwargs)
-
+            x = ''.join(map(str,args))    
+            print(x.rstrip("\n"))
+    
     def get_latest_forecast(self, symbol='BTCUSD', interval='30min'):
         SIG = f'get_latest_forecast({symbol}/{interval}) | '
         self.debug_out(SIG, f' ** THIS FUNCTION IS DEPRECATED ** ')
