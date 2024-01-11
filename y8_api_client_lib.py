@@ -92,13 +92,13 @@ class Y8_API_CLIENT:
 
 #------------
 
-def get_ressource(email, resource, print_xml=False, debug_out=None):
+def get_ressource(email, resource, print_xml=False, debug_out=None, use_large=True):
   json_to_send = {
     'action': 'access_resource',
     'email': email,
     'requested_ressource': resource
   }
-  target_url = 'https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix_large'
+  target_url = f'https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix{"_large" if use_large else ""}'
   if print_xml:
       debug_out('get_ressource', f'sending request to {target_url}')
       debug_out('--------------------------->')
