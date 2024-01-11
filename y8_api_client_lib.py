@@ -19,9 +19,10 @@ class Y8_API_CLIENT:
     INTERVAL_1D = '1d'
      
     
-    def __init__(self, CLIENT_ID, debug_output=False) -> None:
+    def __init__(self, CLIENT_ID, debug_output=False, print_xml=False) -> None:
         self.CLIENT_ID = CLIENT_ID
         self.debug_output = debug_output
+        self.print_xml = print_xml
         
     def debug_out(self, *args, **kwargs):
         if self.debug_output:
@@ -62,10 +63,16 @@ class Y8_API_CLIENT:
         SIG = f'get_historical_forecast({symbol}/{interval}/{history}) | '
         self.debug_out(SIG, f'requesting @ {F_NAME}')
         
-        success, data = get_ressource(self.CLIENT_ID, F_NAME)
+        success, data = get_ressource(self.CLIENT_ID, F_NAME, print_xml=self.print_xml, debug_out=self.debug_out)
         self.debug_out(SIG, f'request successful? {success}')
         if success:
             f_0 = json.loads(data)
+            if self.print_xml:
+                self.debug_out(SIG, 'json of response:')
+                self.debug_out('--------------------------->')
+                self.debug_out(f_0)
+                self.debug_out('<---------------------------')
+                self.debug_out()
             f_0 = run_bug_fixes_for_this_release(f_0)
             return f_0
         else:
@@ -84,12 +91,21 @@ class Y8_API_CLIENT:
 
 #------------
 
-def get_ressource(email, resource):
-  resp = requests.post('https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix_large', json={
+def get_ressource(email, resource, print_xml=False, debug_out=None):
+  json_to_send = {
     'action': 'access_resource',
     'email': email,
     'requested_ressource': resource
-  })
+  }
+  target_url = 'https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix_large'
+  if print_xml:
+      debug_out('get_ressource', f'sending request to {target_url}')
+      debug_out('--------------------------->')
+      debug_out(json_to_send)
+      debug_out('<---------------------------')
+      debug_out()  
+  
+  resp = requests.post(target_url, json=json_to_send)
 
   if resp.status_code == 200:
     x = resp.json()
