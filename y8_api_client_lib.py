@@ -65,7 +65,7 @@ class Y8_API_CLIENT:
         SIG = f'get_historical_forecast({symbol}/{interval}/{history}) | '
         self.debug_out(SIG, f'requesting @ {F_NAME}')
         
-        success, data = get_ressource(self.CLIENT_ID, F_NAME, print_xml=self.print_xml, debug_out=self.debug_out, use_large=False)
+        success, data = get_ressource(self.CLIENT_ID, self.token, F_NAME, print_xml=self.print_xml, debug_out=self.debug_out, use_large=False)
         self.debug_out(SIG, f'request successful? {success}')
         if success:
             f_0 = json.loads(data)
