@@ -19,8 +19,9 @@ class Y8_API_CLIENT:
     INTERVAL_1D = '1d'
      
     
-    def __init__(self, CLIENT_ID, debug_output=False, print_xml=False) -> None:
+    def __init__(self, CLIENT_ID, token, debug_output=False, print_xml=False) -> None:
         self.CLIENT_ID = CLIENT_ID
+        self.token = token
         self.debug_output = debug_output
         self.print_xml = print_xml
         
@@ -47,7 +48,7 @@ class Y8_API_CLIENT:
         SIG = f'get_historical_quotes_v2({symbol}/{interval}/{history}) | '
         
         self.debug_out(SIG, f'requesting @ {resource}')
-        success, data = get_ressource(self.CLIENT_ID, resource)
+        success, data = get_ressource(self.CLIENT_ID, self.token, resource)
         self.debug_out(SIG, f'request successful? {success}')
         if success:
             j = json.loads(data)
@@ -92,10 +93,11 @@ class Y8_API_CLIENT:
 
 #------------
 
-def get_ressource(email, resource, print_xml=False, debug_out=None, use_large=True):
+def get_ressource(email, token, resource, print_xml=False, debug_out=None, use_large=True):
   json_to_send = {
     'action': 'access_resource',
     'email': email,
+    'token': token,
     'requested_ressource': resource
   }
   target_url = f'https://europe-west2-yuce-8-v1.cloudfunctions.net/website_dynamix{"_large" if use_large else ""}'
